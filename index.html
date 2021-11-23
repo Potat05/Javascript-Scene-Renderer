@@ -1,0 +1,67 @@
+<html>
+
+    <head>
+
+        <title>3d Renderer</title>
+
+        <style>
+            body {
+                background: #111;
+                
+            }
+            #RenderCanvas {
+                width: 100%;
+                height: 90%;
+            }
+            #FileInput {
+                height: 30px;
+                color: #ededed;
+            }
+            #FpsCounter {
+                float: right;
+                margin: 0px;
+                color: #ededed;
+                font-size: 125%;
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+        <input type="file" id="FileInput"></input>
+        <h1 id="FpsCounter">0fps</h1>
+        <canvas id="RenderCanvas"></canvas>
+
+        <script src="src/vec.js"></script>
+        <script src="src/matrix.js"></script>
+        <script src="src/uv.js"></script>
+        <script src="src/vert.js"></script>
+        <script src="src/tri.js"></script>
+        <script src="src/texture.js"></script>
+        <script src="src/mesh.js"></script>
+        <script src="src/camera.js"></script>
+        <script src="src/renderer.js"></script>
+
+        <script>
+            let r = new Renderer();
+
+            r.camera.pos = new Vec(-2, 1.3, -3);
+            r.camera.yaw = 0.5;
+
+            document.getElementById("FileInput").addEventListener("change", (e) => {
+                let file = e.target.files[0];
+                file.text().then((str) => {
+                    r.MESH = Mesh.loadFromStr(str);
+                });
+            });
+
+            r.onStep = () => {
+                document.getElementById("FpsCounter").innerText = `${Math.round(r.FPS_CURRENT)}fps`;
+            }
+        </script>
+
+
+    </body>
+
+</html>
