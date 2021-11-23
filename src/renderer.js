@@ -24,7 +24,8 @@ class Renderer {
         this.TIME = 0;
         this.DT = 0;
 
-        setTimeout(() => this.start(), 100);
+        // Give time for image to load
+        setTimeout(() => this.start(), 1000);
     }
 
 
