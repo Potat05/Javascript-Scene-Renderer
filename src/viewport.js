@@ -51,7 +51,9 @@ class Viewport {
         let trisToRender = [];
 
         for(let i in scene.tris) {
-            let triM = scene.tris[i].mulMatrix(matView).mulMatrix(matProj);
+            const triV = scene.tris[i].mulMatrix(matView);
+
+            let triM = triV.mulMatrix(matProj);
 
             triM.v1.pos.x *= texture.width * 0.5;
             triM.v1.pos.y *= texture.height * 0.5;
@@ -61,13 +63,25 @@ class Viewport {
             triM.v3.pos.y *= texture.height * 0.5;
             triM = triM.translate(new Vec(texture.width*0.5, texture.height*0.5, 0));
 
+            if(triM.v1.z <= 1) continue;
 
             trisToRender.push(triM);
         }
 
 
 
+
+        trisToRender.sort((a, b) => {
+            return (b.v1.pos.z + b.v2.pos.z + b.v3.pos.z)*0.33 - (a.v1.pos.z + a.v2.pos.z + a.v3.pos.z)*0.33;
+        });
+
+
+
+
         for(let tri of trisToRender) {
+
+            const textureF = scene.textures[tri.texture];
+            if(!textureF) continue;
 
             let boundMin = tri.boundMin();
             let boundMax = tri.boundMax(texture.width, texture.height);
@@ -78,7 +92,6 @@ class Viewport {
                     let uv = tri.point(new Vec(x, y));
                     if(uv == false) continue;
 
-                    const textureF = scene.textures[tri.texture];
                     const indF = (Math.floor(uv.u) + Math.floor(uv.v) * textureF.width) *4;
 
                     const ind = (x + y * texture.width) * 4;
