@@ -1,12 +1,10 @@
 
 
 
-class Camera {
-    constructor(pos=new Vec(0, 0, -5), yaw=0, pitch=0) {
-        this.pos = pos;
-        this.yaw = yaw;
-        this.pitch = pitch;
-        this.calc();
+class Camera extends Viewport {
+    constructor(pos=new Vec(), yaw=0, pitch=0, texture=0) {
+        super(pos, yaw, pitch, texture);
+        
         this.moveSpeed = 0.01;
         this.turnRate = 0.005;
 
@@ -23,16 +21,8 @@ class Camera {
         }
     }
 
-    calc() {
-        this.dir = Vec.fromAngles(this.yaw, this.pitch);
-        this.up = new Vec(0, -1, 0);
-        this.left = this.up.cross(this.dir);
-    }
-
-    update(dt=1) {
-        // console.log(this.KEYS);
-        // this.yaw += 0.1;
-        // this.calc();
+    update(scene, dt=1) {
+        super.update(scene, dt);
 
         if(this.isKeyDown("KeyW")) this.pos = this.pos.addVec(this.dir.mul(this.moveSpeed * dt));
         if(this.isKeyDown("KeyS")) this.pos = this.pos.subVec(this.dir.mul(this.moveSpeed * dt));
@@ -48,6 +38,5 @@ class Camera {
 
         this.calc();
 
-        // console.log(this.pos, this.yaw, this.pitch);
     }
 }

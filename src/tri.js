@@ -2,14 +2,15 @@
 
 // Triangle with 3 verticies
 class Tri {
-    constructor(v1, v2, v3) {
+    constructor(v1, v2, v3, texture=0) {
         this.v1 = v1;
         this.v2 = v2;
         this.v3 = v3;
+        this.texture = texture;
     }
 
     copy() {
-        return new Tri(this.v1.copy(), this.v2.copy(),this.v3.copy());
+        return new Tri(this.v1.copy(), this.v2.copy(),this.v3.copy(), this.texture);
     }
 
     normal() {
