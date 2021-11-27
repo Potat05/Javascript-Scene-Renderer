@@ -1,28 +1,21 @@
 : Testing scene
 
 
-: Make space potato background image plane
 tf ./resources/images/githubpfp.jpg
-v -100 100 -100 700 0
-v 100 100 -100 0 0
-v -100 -100 -100 700 720
-v 100 -100 -100 0 720
+v -10 10 -10 0 0
+v 10 10 -10 700 0
+v -10 -10 -10 0 720
+v 10 -10 -10 700 720
 
 f 1 2 3
 f 3 2 4
 
 
-
-
-
-: Make current screen plane
-ti 0
-v -10 10 -10 378 0
-v 10 10 -10 0 0
-v -10 -10 -10 378 378
-v 10 -10 -10 0 378
+tf ./resources/images/minecraft_tileset.png
+v -10 10 -15 16 0
+v 10 10 -15 0 0
+v -10 -10 -15 16 16
+v 10 -10 -15 0 16
 
 f 5 6 7
 f 7 6 8
-
-
