@@ -23,14 +23,17 @@ class Renderer {
 
 
         this.camera = 0; // Camera texture index
-        this.cameraRenderScale = 0.5;
+        this.cameraRenderScale = 0.1;
 
 
 
-        this.FPS_TARGET = 30;
+        this.FPS_TARGET = 60;
         this.FPS_CURRENT = this.FPS_TARGET;
         this.TIME = 0;
         this.DT = 0;
+
+        this.FPS_SMOOTHED = this.FPS_CURRENT;
+        this.FPS_SMOOTHING = 0.9;
 
     }
 
@@ -76,6 +79,13 @@ class Renderer {
         if(this.DT > 1000 / this.FPS_CURRENT) this.FPS_CURRENT = 1000 / this.DT;
         if(this.FPS_CURRENT < this.FPS_TARGET && this.DT < 1000 / this.FPS_CURRENT) this.FPS_CURRENT = Math.min(this.FPS_TARGET, 1000 / this.DT);
         this.TIME += 1000 / this.FPS_CURRENT;
+
+        this.FPS_SMOOTHED = (this.FPS_SMOOTHED * this.FPS_SMOOTHING) + (this.FPS_CURRENT * (1-this.FPS_SMOOTHING));
+
+        // Lower resolution if fps is lower than target
+        // this.cameraRenderScale = Math.min((this.FPS_SMOOTHED / this.FPS_TARGET)*0.8, 1);
+        if(this.FPS_CURRENT < this.FPS_TARGET-1) this.cameraRenderScale *= 0.9;
+        else this.cameraRenderScale = Math.min(this.cameraRenderScale*1.1, 1);
 
         if(this.onStep) this.onStep();
 

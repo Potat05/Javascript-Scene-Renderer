@@ -48,7 +48,7 @@
             }
 
             r.onStep = () => {
-                document.getElementById("FpsCounter").innerText = `${Math.round(r.FPS_CURRENT)}fps`;
+                document.getElementById("FpsCounter").innerText = `${Math.round(r.FPS_SMOOTHED)}fps`;
             }
         </script>
 
